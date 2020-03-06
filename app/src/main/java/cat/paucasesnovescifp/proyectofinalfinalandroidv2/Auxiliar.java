@@ -30,8 +30,8 @@ public class Auxiliar {
             if(login){
                 url = new URL("http://52.44.95.114/quepassaeh/server/public/login/");
             } else{
-                //url = new URL("http://52.44.95.114/quepassaeh/server/public/provamissatge/");
-                url = new URL("http://52.44.95.114/quepassaeh/server/public/missatge/");
+                url = new URL("http://52.44.95.114/quepassaeh/server/public/provamissatge/");
+
             }
             // Feim la connexió a la URL
             HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
@@ -68,7 +68,8 @@ public class Auxiliar {
         return text.toString();
     }
 
-    public static String interacionPostToken(String arg1, String arg2, boolean login,String token){
+
+    public static String interacionPostToken(String arg1, String arg2, boolean login,Preferencies token){
         URL url;
         StringBuilder text = new StringBuilder();
         try {
@@ -76,15 +77,15 @@ public class Auxiliar {
             if(login){
                 url = new URL("http://52.44.95.114/quepassaeh/server/public/login/");
             } else{
-                //url = new URL("http://52.44.95.114/quepassaeh/server/public/provamissatge/");
                 url = new URL("http://52.44.95.114/quepassaeh/server/public/missatge/");
+
             }
             // Feim la connexió a la URL
             HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
             httpURLConnection.setReadTimeout(20000);
             httpURLConnection.setChunkedStreamingMode(20000);
             httpURLConnection.setRequestMethod("POST");
-            httpURLConnection.setRequestProperty("Authorization",token);
+            httpURLConnection.setRequestProperty("Authorization",token.getToken());
             httpURLConnection.setDoInput(true);
             httpURLConnection.setDoOutput(true);
             OutputStream out = httpURLConnection.getOutputStream();
@@ -114,6 +115,8 @@ public class Auxiliar {
         }
         return text.toString();
     }
+
+
 
     public static String interacioGet(String idUser, boolean codi) {
         StringBuilder text = new StringBuilder();
@@ -151,15 +154,17 @@ public class Auxiliar {
         return text.toString();
     }
 
-    public static String interacioGetToken(String idUser, boolean codi, String token) {
+
+    public static String interacioGetToken(String idUser, boolean codi,Preferencies token) {
         StringBuilder text = new StringBuilder();
         URL url;
         try {
             // Agafam la URL que s'ha passat com argument
             if (!codi) {
-                //url = new URL("http://52.44.95.114/quepassaeh/server/public/provamissatge/");
                 url = new URL("http://52.44.95.114/quepassaeh/server/public/missatge/");
+
             } else {
+                // este son los ultimos
                 url = new URL("http://52.44.95.114/quepassaeh/server/public/provamissatge/" + idUser);
             }
             // Feim la connexió a la URL
@@ -167,14 +172,15 @@ public class Auxiliar {
             httpURLConnection.setReadTimeout(15000);
             httpURLConnection.setChunkedStreamingMode(25000);
             httpURLConnection.setRequestMethod("GET");
-            httpURLConnection.setRequestProperty("Authorization",token);
+            httpURLConnection.setRequestProperty("Authorization",token.getToken());
             httpURLConnection.connect();
             // Codi de la resposta
             int responseCode = httpURLConnection.getResponseCode();
             Log.d("RUN", "Descarrega " + responseCode);
             if (responseCode == HttpURLConnection.HTTP_OK) {
                 // Recollim texte
-                BufferedReader in = new BufferedReader(new InputStreamReader(httpURLConnection.getInputStream()));
+                BufferedReader in = new BufferedReader(new
+                        InputStreamReader(httpURLConnection.getInputStream()));
                 String liniatxt;
                 while ((liniatxt = in.readLine()) != null) {
                     text.append(liniatxt);
@@ -186,6 +192,8 @@ public class Auxiliar {
         }
         return text.toString();
     }
+
+
     public static void processarMissatges(ListView lv, Context context, String idUser, String result){
         // Quan ha acabat la tasca, Agafam string que es un JSON
         Log.w("TEXTE", result);

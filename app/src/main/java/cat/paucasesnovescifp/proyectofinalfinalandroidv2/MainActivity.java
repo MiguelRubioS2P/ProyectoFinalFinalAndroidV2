@@ -60,10 +60,9 @@ public class MainActivity extends AppCompatActivity {
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                shared.setUser(email.getText().toString());
-                shared.setPassword(contra.getText().toString());
+
                 try {
-                    JSONObject conexion = new JSONObject(Auxiliar.interacionPost(shared.getUser(),shared.getPassword(),true));
+                    JSONObject conexion = new JSONObject(Auxiliar.interacionPost(email.getText().toString(),contra.getText().toString(),true));
                     Toast.makeText(getApplicationContext(),conexion + " ",Toast.LENGTH_SHORT).show();
 
                     Log.d("Prueba",conexion + "");
@@ -72,10 +71,13 @@ public class MainActivity extends AppCompatActivity {
                         // Shared tiene el token y el codigo usuario
                         shared.setToken(dades.getString("token"));
                         shared.setCodiusuari(dades.getString("codiusuari"));
+                        shared.setUser(dades.getString("email"));
+                        shared.setPassword(contra.getText().toString());
                         Toast.makeText(getApplicationContext(),"Info: " + shared.getToken(),Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(getApplicationContext(),Prueba.class);
                         startActivity(intent);
                         finish();
+
                     }else{
                         Toast.makeText(getApplicationContext(),"No se ha podido realizar el login",Toast.LENGTH_LONG).show();
                     }

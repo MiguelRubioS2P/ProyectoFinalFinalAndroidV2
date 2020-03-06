@@ -48,7 +48,7 @@ public class Prueba extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 try {
-                    JSONObject enviarMensaje = new JSONObject(Auxiliar.interacionPostToken(msg.getText().toString(),shared.getCodiusuari(),false,shared.getToken()));
+                    JSONObject enviarMensaje = new JSONObject(Auxiliar.interacionPost(msg.getText().toString(),shared.getCodiusuari(),false));
                     Log.d("PruebaEnviarMensaje", enviarMensaje + "");
                     msg.setText("");
                     recibir();
@@ -61,21 +61,19 @@ public class Prueba extends AppCompatActivity {
 
         recibir();
 
-
-
-
     }
 
     public void recibir(){
         try {
             //tenemos los mensajes
-            JSONObject mensajesJson = new JSONObject(Auxiliar.interacioGetToken(shared.getCodiusuari(),false,shared.getToken()));
+            JSONObject mensajesJson = new JSONObject(Auxiliar.interacioGet(shared.getCodiusuari(),false));
             // comprobamos si nos ha devuelto un true en que es correcto el mensaje
             if(mensajesJson.getBoolean("correcta")){
                 // Creamos un json con la array de mensajes
                 JSONArray mensajesArray = mensajesJson.getJSONArray("dades");
                 for (int i = 0; i < mensajesArray.length();i++){
                     JSONObject mensajeIndividual = mensajesArray.getJSONObject(i);
+                    dbQuePasaAux.guardarRecibido(mensajeIndividual);
                     Missatge missatge = new Missatge();
                     missatge.setId(mensajeIndividual.getString("codimissatge"));
                     missatge.setMsg(mensajeIndividual.getString("msg"));
@@ -87,6 +85,7 @@ public class Prueba extends AppCompatActivity {
                     listamensaje.setAdapter(adapter);
 
                 }
+
             }else{
                 Toast.makeText(getApplicationContext(),"No se ha podido recibir los mensajes",Toast.LENGTH_SHORT).show();
             }
