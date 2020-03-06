@@ -114,8 +114,14 @@ public class MainActivity extends AppCompatActivity {
             //Xarxa no disponible
 
             Toast.makeText(this, "Conexión no disponible", Toast.LENGTH_LONG).show();
+
         }
 
+    }
+
+    public void offline(){
+        Intent in = new Intent(getApplicationContext(),Offline.class);
+        startActivity(in);
     }
 
     public class ReceptorXarxa extends BroadcastReceiver {

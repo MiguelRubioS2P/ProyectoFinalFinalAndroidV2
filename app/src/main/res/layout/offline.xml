@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/tituloSinConexion"
+        android:text="SIN CONEXIÓN"
+        android:textSize="40dp"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:id="@+id/descripcionSinConexion"
+        android:text="Disculpen las molestias, no podemos recuperar sus mensajes ya que no tenemos la posibilidad de conectarnos a internet."
+        android:layout_below="@id/tituloSinConexion"
+        android:textSize="20dp"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+
+</RelativeLayout>
